@@ -14,14 +14,14 @@ export const router = [
     {
         id: Math.floor(Math.random()*1000),
         component:<Login/>,
-        path:"/",
+        path:"/login",
         names:"Login"
     },
     {
         id: Math.floor(Math.random()*1000),
         component:<Register/>,
-        path:"/about",
-        names:"About"
+        path:"/register",
+        names:"register"
     },
     
 ]
