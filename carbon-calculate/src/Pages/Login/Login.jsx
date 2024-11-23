@@ -13,7 +13,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-        const response = await fetch("http://10.249.160.115:8083/api/v1/auth/authenticate", {
+        const response = await fetch("http://10.10.0.29:8083/api/v1/auth/authenticate", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -32,11 +32,12 @@ const LoginPage = () => {
        
         
     
-        data && console.log("Giriş başarılı:", data);
+        data && console.log("Giriş başarılı:", data.userId);
   
        
-        // localStorage.setItem("token", data.token);
-        // window.location.href = "/home"; 
+        localStorage.setItem("userId", data.userId); // userId'yi kaydet
+        // Kullanıcı giriş yaptıktan sonra yönlendirme
+        window.location.href = "/home"; 
       } catch (error) {
         console.log(error.message);
       }

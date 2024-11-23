@@ -1,0 +1,68 @@
+.carbon-footprint {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+  
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+  
+      label {
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 5px;
+      }
+  
+      input,
+      select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+      }
+  
+      input:focus,
+      select:focus {
+        border-color: #4caf50;
+        outline: none;
+      }
+    }
+  
+    .calculate-btn {
+      background: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.3s;
+  
+      &:hover {
+        background: #45a049;
+      }
+    }
+  
+    .total-output {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #333;
+  
+      span {
+        font-weight: bold;
+        color: #4caf50;
+      }
+    }
+  }
+      

@@ -12,7 +12,7 @@ const Register = () => {
       e.preventDefault();
      
     try {
-        const response = await fetch("http://10.249.160.115:8083/api/v1/auth/register", {
+        const response = await fetch("http://10.10.0.29:8083/api/v1/auth/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
