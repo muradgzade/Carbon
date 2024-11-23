@@ -3,16 +3,17 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Layout from "./Components/Layout/Layout";
 import { router } from "./router";
 
+
+
 const App = () => {
   const location = useLocation();
-  
-  // Layout kullanılmayacak yollar
-  const noLayoutPaths = ["/login", "/register"];
 
+  // Layout kullanılmayacak yollar
+  const noLayoutPaths = ["/", "/register"];
   const isNoLayout = noLayoutPaths.includes(location.pathname);
 
   return (
-    <>
+   <>
       {isNoLayout ? (
         <Routes>
           {router &&
@@ -40,7 +41,7 @@ const App = () => {
           </Routes>
         </Layout>
       )}
-    </>
+   </>
   );
 };
 

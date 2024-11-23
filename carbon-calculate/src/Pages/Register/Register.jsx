@@ -5,17 +5,19 @@ const Register = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+    const [password, setPassword] = useState("");
+    
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+      e.preventDefault();
+     
     try {
-        const response = await fetch("http://localhost:8083/api/v1/auth/authenticate", {
+        const response = await fetch("http://10.249.160.115:8083/api/v1/auth/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ firstname,lastname,email, password }),
         });
   
         if (!response.ok) {
@@ -30,7 +32,7 @@ const Register = () => {
   
        
         localStorage.setItem("token", data.token);
-        window.location.href = "/login"; 
+        window.location.href = "/"; 
       } catch (error) {
         console.log(error.message);
       }
@@ -102,7 +104,7 @@ const Register = () => {
             </button>
             <p>
               Already have an account?
-              <Link to={"/login"} className="tologin-btn">
+              <Link to={"/"} className="tologin-btn">
                 Login
               </Link>
             </p>

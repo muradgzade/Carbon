@@ -14,7 +14,7 @@ export const router = [
     {
         id: Math.floor(Math.random()*1000),
         component:<Login/>,
-        path:"/login",
+        path:"/",
         names:"Login"
     },
     {

@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import "./login.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 const LoginPage = () => {
 
-    const navigate = useNavigate(); 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+    const [password, setPassword] = useState("");
+    const [userid,setuserid]=useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch("http://localhost:8083/api/v1/auth/authenticate", {
+        const response = await fetch("http://10.249.160.115:8083/api/v1/auth/authenticate", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -25,20 +25,26 @@ const LoginPage = () => {
           throw new Error("Giriş bilgileri hatalı!");
         }
         else{
-          console.log("home a kecin");
+          console.log(response);
         }
   
         const data = await response.json();
-        console.log("Giriş başarılı:", data);
+       
+        
+    
+        data && console.log("Giriş başarılı:", data);
   
        
-        localStorage.setItem("token", data.token);
-        window.location.href = "/home"; 
+        // localStorage.setItem("token", data.token);
+        // window.location.href = "/home"; 
       } catch (error) {
         console.log(error.message);
       }
      
-  };
+    };
+    
+  
+    
 
   return (
     <div className="login-page">
