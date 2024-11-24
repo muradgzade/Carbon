@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import './calculator.scss';  
+import React, { useState } from "react";
+import "./calculator.scss";
 
-const EnergyForm = ({ userId }) => {
-  const [energy, setEnergy] = useState({
+const CarbonForms = () => {
+  const [activeForm, setActiveForm] = useState("energy"); // Aktiv formanı təyin edir
+  const [energyInputs, setEnergyInputs] = useState({
     electricity: 0,
     naturalGas: 0,
     heatingOil: 0,
@@ -12,39 +13,7 @@ const EnergyForm = ({ userId }) => {
     wood: 0,
   });
 
-  const handleChange = (e) => {
-    setEnergy({ ...energy, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async () => {
-    await fetch(`http://10.249.160.115:8083/api/v1/user-carbon-data`, {
-      method: 'POST',
-      body: JSON.stringify({ energy, userId }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-  };
-
-  return (
-    <form className="form-container">
-      <h2>Energy Inputs</h2>
-      {Object.keys(energy).map((inputName) => (
-        <div key={inputName} className="input-group">
-          <label>{inputName}</label>
-          <input
-            type="number"
-            name={inputName}
-            value={energy[inputName]}
-            onChange={handleChange}
-          />
-        </div>
-      ))}
-      <button type="button" className="submit-btn" onClick={handleSubmit}>Submit</button>
-    </form>
-  );
-};
-
-const SecondaryForm = ({ userId }) => {
-  const [secondary, setSecondary] = useState({
+  const [secondaryInputs, setSecondaryInputs] = useState({
     foodAndDrink: 0,
     pharmaceuticals: 0,
     clothesTextilesAndShoes: 0,
@@ -58,43 +27,10 @@ const SecondaryForm = ({ userId }) => {
     bankingFinance: 0,
     insurance: 0,
     education: 0,
-   SportingActivities: 50,
+    recreationalCulturalSportingActivities: 50,
   });
 
-  const handleChange = (e) => {
-    setSecondary({ ...secondary, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async () => {
-    await fetch(`http://10.249.160.115:8083/api/v1/user-carbon-data`, {
-
-      method: 'POST',
-      body: JSON.stringify({ secondary, userId }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-  };
-
-  return (
-    <form className="form-container">
-      <h2>Secondary Inputs</h2>
-      {Object.keys(secondary).map((inputName) => (
-        <div key={inputName} className="input-group">
-          <label>{inputName}</label>
-          <input
-            type="number"
-            name={inputName}
-            value={secondary[inputName]}
-            onChange={handleChange}
-          />
-        </div>
-      ))}
-      <button type="button" className="submit-btn" onClick={handleSubmit}>Submit</button>
-    </form>
-  );
-};
-
-const TransportForm = ({ userId }) => {
-  const [transport, setTransport] = useState({
+  const [transportInputs, setTransportInputs] = useState({
     bus: 0,
     coach: 0,
     localCommuterTrain: 0,
@@ -104,133 +40,151 @@ const TransportForm = ({ userId }) => {
     taxi: 0,
   });
 
-  const handleChange = (e) => {
-    setTransport({ ...transport, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async () => {
-    await fetch(`http://10.249.160.115:8083/api/v1/user-carbon-data`, {
-
-      method: 'POST',
-      body: JSON.stringify({ transport, userId }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-  };
-
-  return (
-    <form className="form-container">
-      <h2>Transport Inputs</h2>
-      {Object.keys(transport).map((inputName) => (
-        <div key={inputName} className="input-group">
-          <label>{inputName}</label>
-          <input
-            type="number"
-            name={inputName}
-            value={transport[inputName]}
-            onChange={handleChange}
-          />
-        </div>
-      ))}
-      <button type="button" className="submit-btn" onClick={handleSubmit}>Submit</button>
-    </form>
-  );
-};
-
-const VehicleForm = ({ userId }) => {
-  const [vehicle, setVehicle] = useState({
-    vehicleType: 'CAR',
+  const [vehicleInputs, setVehicleInputs] = useState({
+    vehicleType: "CAR",
     manufactureYear: 0,
-    manufactureType: 'PETROL',
-    model: 'string',
+    manufactureType: "PETROL",
+    model: "string",
   });
 
-  const handleChange = (e) => {
-    setVehicle({ ...vehicle, [e.target.name]: e.target.value });
+  // Form dəyişikliklərini idarə edən funksiyalar
+  const handleChange = (e, setState) => {
+    const { name, value } = e.target;
+    setState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async () => {
-    await fetch(`http://10.10.0.29:8083/api/v1/user-carbon-data/carbon/vehicle/${userId}`, {
-      method: 'POST',
-      body: JSON.stringify({ vehicle, userId }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const userId = localStorage.getItem("userId"); // userId localStorage-dən alınır
+  
+    if (!userId) {
+      alert("User ID not found in localStorage!");
+      return;
+    }
+  
+    const data = {
+      userId, // Backend-ə userId göndərilir
+      energyInputs,
+      secondaryInputs,
+      transportInputs,
+      vehicleInputs,
+    };
+  
+    try {
+      const response = await fetch("http://10.249.160.115:8083/api/v1/user-carbon-data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      alert("Data submitted successfully!");
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error submitting data!");
+    }
   };
-
-  return (
-    <form className="form-container">
-      <h2>Vehicle Inputs</h2>
-      <div className="input-group">
-        <label>Vehicle Type</label>
-        <input
-          type="text"
-          name="vehicleType"
-          value={vehicle.vehicleType}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="input-group">
-        <label>Manufacture Year</label>
-        <input
-          type="number"
-          name="manufactureYear"
-          value={vehicle.manufactureYear}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="input-group">
-        <label>Manufacture Type</label>
-        <input
-          type="text"
-          name="manufactureType"
-          value={vehicle.manufactureType}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="input-group">
-        <label>Model</label>
-        <input
-          type="text"
-          name="model"
-          value={vehicle.model}
-          onChange={handleChange}
-        />
-      </div>
-      <button type="button" className="submit-btn" onClick={handleSubmit}>Submit</button>
-    </form>
-  );
-};
-
-const Calculator = () => {
-  const [activeForm, setActiveForm] = useState('energy');
-  const userId = localStorage.getItem('userId'); // Get user ID from localStorage
+  
 
   const handleCalculate = async () => {
-    const response = await fetch(`API_ENDPOINT/calculate/${userId}`, {
-      method: 'POST',
-      body: JSON.stringify({ userId }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-    const result = await response.json();
-    console.log(result);
+    try {
+      const response = await fetch("http://backend-api-url/calculate");
+      const result = await response.json();
+      alert(`Calculated total: ${result.total}`);
+    } catch (error) {
+      alert("Error calculating total!");
+    }
+  };
+
+  const renderForm = () => {
+    switch (activeForm) {
+      case "energy":
+        return (
+          <div>
+            <h3>Energy Inputs</h3>
+            {Object.keys(energyInputs).map((key) => (
+              <div key={key}>
+                <label>{key}:</label>
+                <input
+                  type="number"
+                  name={key}
+                  value={energyInputs[key]}
+                  onChange={(e) => handleChange(e, setEnergyInputs)}
+                />
+              </div>
+            ))}
+          </div>
+        );
+      case "secondary":
+        return (
+          <div>
+            <h3>Secondary Inputs</h3>
+            {Object.keys(secondaryInputs).map((key) => (
+              <div key={key}>
+                <label>{key}:</label>
+                <input
+                  type="number"
+                  name={key}
+                  value={secondaryInputs[key]}
+                  onChange={(e) => handleChange(e, setSecondaryInputs)}
+                />
+              </div>
+            ))}
+          </div>
+        );
+      case "transport":
+        return (
+          <div>
+            <h3>Transport Inputs</h3>
+            {Object.keys(transportInputs).map((key) => (
+              <div key={key}>
+                <label>{key}:</label>
+                <input
+                  type="number"
+                  name={key}
+                  value={transportInputs[key]}
+                  onChange={(e) => handleChange(e, setTransportInputs)}
+                />
+              </div>
+            ))}
+          </div>
+        );
+      case "vehicle":
+        return (
+          <div>
+            <h3>Vehicle Inputs</h3>
+            {Object.keys(vehicleInputs).map((key) => (
+              <div key={key}>
+                <label>{key}:</label>
+                <input
+                  type={key === "manufactureYear" ? "number" : "text"}
+                  name={key}
+                  value={vehicleInputs[key]}
+                  onChange={(e) => handleChange(e, setVehicleInputs)}
+                />
+              </div>
+            ))}
+            <button onClick={handleSubmit}>Submit</button>
+            <button onClick={handleCalculate}>Calculate</button>
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
-    <div className="calculator-container">
-      <div className="form-tabs">
-        <button onClick={() => setActiveForm('energy')} className="tab-btn">Energy</button>
-        <button onClick={() => setActiveForm('secondary')} className="tab-btn">Secondary</button>
-        <button onClick={() => setActiveForm('transport')} className="tab-btn">Transport</button>
-        <button onClick={() => setActiveForm('vehicle')} className="tab-btn">Vehicle</button>
-      </div>
-
-      {activeForm === 'energy' && <EnergyForm userId={userId} />}
-      {activeForm === 'secondary' && <SecondaryForm userId={userId} />}
-      {activeForm === 'transport' && <TransportForm userId={userId} />}
-      {activeForm === 'vehicle' && <VehicleForm userId={userId} />}
-
-      <button type="button" className="calculate-btn" onClick={handleCalculate}>Calculate</button>
+    <div className="carbon-forms">
+      <nav>
+        <button onClick={() => setActiveForm("energy")}>Energy</button>
+        <button onClick={() => setActiveForm("secondary")}>Secondary</button>
+        <button onClick={() => setActiveForm("transport")}>Transport</button>
+        <button onClick={() => setActiveForm("vehicle")}>Vehicle</button>
+      </nav>
+      <div className="form-container">{renderForm()}</div>
     </div>
   );
 };
 
-export default Calculator;
+export default CarbonForms;
