@@ -11,7 +11,7 @@ const Navbar = () => {
     if (isDrawerOpen) {
       const storedUserId = localStorage.getItem("userId");
       // Fetch user data when the drawer is opened
-      fetch(`http://10.10.0.29:8083/v1/api/users/${storedUserId}`) // Replace with your actual API endpoint
+      fetch(`http://10.249.160.115:8083/v1/api/users/${storedUserId}`) // Replace with your actual API endpoint
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');

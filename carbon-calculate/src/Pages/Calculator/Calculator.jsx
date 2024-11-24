@@ -17,7 +17,7 @@ const EnergyForm = ({ userId }) => {
   };
 
   const handleSubmit = async () => {
-    await fetch(`http://10.10.0.29:8083/api/v1/user-carbon-data/carbon/energy/${userId}`, {
+    await fetch(`http://10.249.160.115:8083/api/v1/user-carbon-data`, {
       method: 'POST',
       body: JSON.stringify({ energy, userId }),
       headers: { 'Content-Type': 'application/json' },
@@ -66,7 +66,7 @@ const SecondaryForm = ({ userId }) => {
   };
 
   const handleSubmit = async () => {
-    await fetch(`http://10.10.0.29:8083/api/v1/user-carbon-data/carbon/secondary/${userId}`, {
+    await fetch(`http://10.249.160.115:8083/api/v1/user-carbon-data`, {
 
       method: 'POST',
       body: JSON.stringify({ secondary, userId }),
@@ -109,7 +109,7 @@ const TransportForm = ({ userId }) => {
   };
 
   const handleSubmit = async () => {
-    await fetch(`http://10.10.0.29:8083/api/v1/user-carbon-data/carbon/transport/${userId}`, {
+    await fetch(`http://10.249.160.115:8083/api/v1/user-carbon-data`, {
 
       method: 'POST',
       body: JSON.stringify({ transport, userId }),

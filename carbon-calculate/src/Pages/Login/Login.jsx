@@ -1,51 +1,41 @@
 import React, { useState } from "react";
 import "./login.scss";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";  // useNavigate import ettik
 
 const LoginPage = () => {
-
   const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [userid,setuserid]=useState('')
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();  // useNavigate hook'u
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await fetch("http://10.10.0.29:8083/api/v1/auth/authenticate", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        });
-  
-        if (!response.ok) {
-          throw new Error("Giriş bilgileri hatalı!");
-        }
-        else{
-          console.log(response);
-        }
-  
-        const data = await response.json();
-       
-        
-    
-        data && console.log("Giriş başarılı:", data.userId);
-  
-       
+      const response = await fetch("http://10.249.160.115:8083/api/v1/auth/authenticate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Giriş bilgileri hatalı!");
+      }
+
+      const data = await response.json();
+      if (data) {
+        console.log("Giriş başarılı:", data.userId);
+
         localStorage.setItem("userId", data.userId); // userId'yi kaydet
-        // Kullanıcı giriş yaptıktan sonra yönlendirme
-        window.location.href = "/home"; 
-      } catch (error) {
-        console.log(error.message);
-      }
-     
-    };
-    
-  
-    
+
+        // Giriş başarılı olduktan sonra yönlendirme
+        navigate("/home");  // useNavigate ile yönlendirme
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div className="login-page">
@@ -81,15 +71,15 @@ const LoginPage = () => {
           </div>
 
           <div className="buttons">
-            <button  type="submit" className="login-button">
+            <button type="submit" className="login-button">
               Login
             </button>
-                      <p>
-                         Don't have an account?
-                      <Link to={"/register"}  className="toregister-btn">
+            <p>
+              Don't have an account?
+              <Link to={"/register"} className="toregister-btn">
                 Signup
-            </Link>
-           </p>
+              </Link>
+            </p>
           </div>
         </form>
       </div>
