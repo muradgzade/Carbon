@@ -43,20 +43,21 @@ const Navbar = () => {
           </a>
         </li>
         <Drawer anchor="right" open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
-          <div style={{ width: 250, padding: "1rem" }}>
-            <h2>Personal Info</h2>
-            {userData ? (
-              <>
-                <p>Name: {userData.firstname}</p>
-                <p>Surname: {userData.lastname}</p>
-                <p>Email: {userData.email}</p>
-                {/* Add more fields as necessary */}
-              </>
-            ) : (
-              <p>Loading...</p>
-            )}
-          </div>
-        </Drawer>
+  <div className="drawer-container">
+    <img src="https://www.freeiconspng.com/thumbs/person-icon/clipart--person-icon--cliparts-15.png" alt="" />
+    {userData ? (
+      <div className="user-info">
+        <h3> {userData.lastname}    {userData.firstname}</h3>
+        
+        <p> {userData.email}</p>
+        {/* Add more fields as necessary */}
+      </div>
+    ) : (
+      <p className="loading">Loading...</p>
+    )}
+  </div>
+</Drawer>
+
       </ul>
       <div className="navbar__menu">
         <i className="fas fa-bars"></i>

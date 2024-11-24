@@ -68,3 +68,23 @@ gap: 50px;
     }
   }
 }
+
+.drawer-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  img{
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+  }
+  .user-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+
