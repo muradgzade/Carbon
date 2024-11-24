@@ -7,7 +7,7 @@ const PrivateRoute = ({ children }) => {
 
   // Eğer kullanıcı login olmamışsa, login sayfasına yönlendir
   if (!userId) {
-    return <Navigate to="/login" />;
+    // return <Navigate to="/login" />;
   }
 
   return children;
